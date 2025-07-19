@@ -50,9 +50,24 @@
   </style>
 </head>
 <body>
-  <video controls autoplay muted playsinline>
+
+  <!-- Video: plays only once, allows manual replay via controls -->
+  <video id="myVideo" controls muted playsinline>
     <source src="Wedding Invitation.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+
+  <script>
+    // Optional: autoplay once, but stop at end and prevent looping
+    const video = document.getElementById('myVideo');
+    video.play();
+
+    // Make sure video does NOT restart after ending
+    video.addEventListener('ended', () => {
+      video.pause(); // just to be safe
+      video.currentTime = video.duration; // stay at end
+    });
+  </script>
+
 </body>
 </html>
