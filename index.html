@@ -42,12 +42,11 @@
 
 </body>
 </html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fullscreen Video with Audio</title>
+  <title>Fullscreen Video with Audio (Mobile Compatible)</title>
   <style>
     html, body {
       margin: 0;
@@ -62,7 +61,7 @@
       width: 100vw;
       height: 100vh;
       object-fit: fill;
-      display: none; /* Hide video until user starts it */
+      display: none; /* Hide until user interaction */
     }
 
     #startBtn {
@@ -76,28 +75,35 @@
       background-color: white;
       border: none;
       border-radius: 10px;
+      z-index: 10;
     }
   </style>
 </head>
 <body>
 
-  <!-- Button to start the video with audio -->
-  <button id="startBtn">Play Video</button>
+  <!-- Start button for user interaction -->
+  <button id="startBtn">Play Video with Sound</button>
 
-  <!-- Video without autoplay or muted -->
-  <video id="myVideo" controls playsinline>
+  <!-- Video element (no autoplay, no muted, no controls initially) -->
+  <video id="myVideo" playsinline>
     <source src="yourvideo.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
   <script>
-    const button = document.getElementById('startBtn');
+    const startBtn = document.getElementById('startBtn');
     const video = document.getElementById('myVideo');
 
-    button.addEventListener('click', () => {
-      button.style.display = 'none';   // Hide the button
-      video.style.display = 'block';   // Show the video
-      video.play();                    // Start playback with audio
+    startBtn.addEventListener('click', async () => {
+      startBtn.style.display = 'none';  // Hide the start button
+      video.style.display = 'block';    // Show the video
+      video.setAttribute('controls', true); // Enable controls after user interaction
+
+      try {
+        await video.play(); // Must be triggered by direct interaction
+      } catch (err) {
+        alert("Autoplay with audio is blocked on this browser. Please tap the video to play.");
+      }
     });
   </script>
 
