@@ -21,38 +21,9 @@
   </style>
 </head>
 <body>
-  <video autoplay muted loop playsinline>
-    <source src="Wedding Invitation.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</body>
-</html> -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Fullscreen Video</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      background: black;
-      overflow: hidden;
-    }
-    video {
-      width: 100vw;
-      height: 100vh;
-      object-fit: fill;
-      display: block;
-    }
-  </style>
-</head>
-<body>
 
   <!-- Video: plays only once, allows manual replay via controls -->
-  <video id="myVideo" controls playsinline>
+ <!-- <video id="myVideo" controls playsinline>
     <source src="Wedding Invitation.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -66,6 +37,67 @@
     video.addEventListener('ended', () => {
       video.pause(); // just to be safe
       video.currentTime = video.duration; // stay at end
+    });
+  </script>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Video with Audio</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: black;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      display: none; /* Hide video until user starts it */
+    }
+
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1em 2em;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: white;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Button to start the video with audio -->
+  <button id="startBtn">Play Video</button>
+
+  <!-- Video without autoplay or muted -->
+  <video id="myVideo" controls playsinline>
+    <source src="yourvideo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <script>
+    const button = document.getElementById('startBtn');
+    const video = document.getElementById('myVideo');
+
+    button.addEventListener('click', () => {
+      button.style.display = 'none';   // Hide the button
+      video.style.display = 'block';   // Show the video
+      video.play();                    // Start playback with audio
     });
   </script>
 
