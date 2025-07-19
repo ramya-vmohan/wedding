@@ -46,22 +46,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fullscreen Video with Audio (Mobile Compatible)</title>
+  <title>Fullscreen Video with Audio</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
-      background: black;
       overflow: hidden;
+      background-color: black;
+    }
+
+    #videoContainer {
+      display: none;
+      height: 100%;
+      width: 100%;
     }
 
     video {
-      width: 100vw;
-      height: 100vh;
-      object-fit: fill;
-      display: none; /* Hide until user interaction */
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     #startBtn {
@@ -69,40 +75,47 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 1em 2em;
-      font-size: 1.2em;
-      cursor: pointer;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
       background-color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
+      cursor: pointer;
       z-index: 10;
     }
   </style>
 </head>
 <body>
 
-  <!-- Start button for user interaction -->
-  <button id="startBtn">Play Video with Sound</button>
+  <!-- Button to start video playback -->
+  <button id="startBtn">Play Video</button>
 
-  <!-- Video element (no autoplay, no muted, no controls initially) -->
-  <video id="myVideo" playsinline>
-    <source src="yourvideo.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <!-- Container for video player -->
+  <div id="videoContainer">
+    <video id="myVideo" controls playsinline>
+      <source src="Wedding Invitation.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
   <script>
-    const startBtn = document.getElementById('startBtn');
-    const video = document.getElementById('myVideo');
+    const startBtn = document.getElementById("startBtn");
+    const videoContainer = document.getElementById("videoContainer");
+    const video = document.getElementById("myVideo");
 
-    startBtn.addEventListener('click', async () => {
-      startBtn.style.display = 'none';  // Hide the start button
-      video.style.display = 'block';    // Show the video
-      video.setAttribute('controls', true); // Enable controls after user interaction
-
+    startBtn.addEventListener("click", async () => {
       try {
-        await video.play(); // Must be triggered by direct interaction
+        startBtn.style.display = "none";
+        videoContainer.style.display = "block";
+
+        // Attempt to play the video
+        await video.play();
+
+        // Enable controls after playback starts (if needed)
+        video.setAttribute("controls", "true");
       } catch (err) {
-        alert("Autoplay with audio is blocked on this browser. Please tap the video to play.");
+        console.error("Playback failed:", err);
+        alert("Tap the video to play — some browsers block auto-play with sound.");
       }
     });
   </script>
