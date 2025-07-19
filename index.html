@@ -87,15 +87,14 @@
   <meta charset="UTF-8">
   <title>Fullscreen Video with Audio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
-      overflow: hidden;
       background-color: black;
+      overflow: hidden;
     }
 
     #videoContainer {
@@ -134,12 +133,10 @@
       fill: #ccc;
     }
 
-    /* Mobile-specific adjustments */
+    /* Mobile-specific override to ensure fit */
     @media (max-width: 768px) {
       video {
-        width: 100vw;
-        height: 100vh;
-        object-fit: fill; /* Ensures full coverage without cropping */
+        object-fit: fill; /* ensures borders are filled */
       }
     }
   </style>
@@ -153,9 +150,9 @@
     </svg>
   </button>
 
-  <!-- Video Player -->
+  <!-- Video Container -->
   <div id="videoContainer">
-    <video id="myVideo" controls playsinline>
+    <video id="myVideo" playsinline controls>
       <source src="Wedding Invitation.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -163,19 +160,25 @@
 
   <script>
     const startBtn = document.getElementById("startBtn");
-    const videoContainer = document.getElementById("videoContainer");
     const video = document.getElementById("myVideo");
+    const videoContainer = document.getElementById("videoContainer");
 
     function isMobile() {
       return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     }
 
-    async function rotateToLandscape() {
-      if (screen.orientation && screen.orientation.lock) {
+    async function goFullscreenAndRotate() {
+      if (video.requestFullscreen) {
+        await video.requestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen(); // for Safari
+      }
+
+      if (isMobile() && screen.orientation && screen.orientation.lock) {
         try {
-          await screen.orientation.lock('landscape');
+          await screen.orientation.lock("landscape");
         } catch (err) {
-          console.warn("Orientation lock failed or not supported:", err);
+          console.warn("Orientation lock failed or unsupported:", err.message);
         }
       }
     }
@@ -184,17 +187,13 @@
       startBtn.style.display = "none";
       videoContainer.style.display = "block";
 
-      // Rotate to landscape only on mobile
-      if (isMobile()) {
-        rotateToLandscape();
-      }
-
       try {
-        await video.play();
+        await goFullscreenAndRotate();   // Must come before play() for mobile support
+        await video.play();              // User-triggered play
         video.setAttribute("controls", "true");
       } catch (err) {
-        console.error("Playback failed:", err);
-        alert("Tap the video to play — some browsers block auto-play with sound.");
+        console.error("Playback error:", err);
+        alert("Please tap the video to start. Some mobile browsers block autoplay with sound.");
       }
     });
   </script>
