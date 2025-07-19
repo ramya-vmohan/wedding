@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -22,6 +22,35 @@
 </head>
 <body>
   <video autoplay muted loop playsinline>
+    <source src="Wedding Invitation.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Video</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: black;
+      overflow: hidden;
+    }
+    video {
+      width: 100vw;
+      height: 100vh;
+      object-fit: fill;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <video controls autoplay muted playsinline>
     <source src="Wedding Invitation.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
