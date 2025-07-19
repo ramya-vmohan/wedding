@@ -86,6 +86,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Fullscreen Video with Audio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <style>
     html, body {
       margin: 0;
@@ -103,8 +105,8 @@
     }
 
     video {
-      width: 100%;
-      height: 100%;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
       display: block;
     }
@@ -131,18 +133,27 @@
       transform: scale(1.1);
       fill: #ccc;
     }
+
+    /* Mobile-specific adjustments */
+    @media (max-width: 768px) {
+      video {
+        width: 100vw;
+        height: 100vh;
+        object-fit: fill; /* Ensures full coverage without cropping */
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Button with Play Icon -->
+  <!-- Play Button -->
   <button id="startBtn" aria-label="Play">
     <svg viewBox="0 0 100 100">
       <polygon points="40,30 70,50 40,70" />
     </svg>
   </button>
 
-  <!-- Video container -->
+  <!-- Video Player -->
   <div id="videoContainer">
     <video id="myVideo" controls playsinline>
       <source src="yourvideo.mp4" type="video/mp4">
@@ -155,10 +166,30 @@
     const videoContainer = document.getElementById("videoContainer");
     const video = document.getElementById("myVideo");
 
+    function isMobile() {
+      return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    async function rotateToLandscape() {
+      if (screen.orientation && screen.orientation.lock) {
+        try {
+          await screen.orientation.lock('landscape');
+        } catch (err) {
+          console.warn("Orientation lock failed or not supported:", err);
+        }
+      }
+    }
+
     startBtn.addEventListener("click", async () => {
+      startBtn.style.display = "none";
+      videoContainer.style.display = "block";
+
+      // Rotate to landscape only on mobile
+      if (isMobile()) {
+        rotateToLandscape();
+      }
+
       try {
-        startBtn.style.display = "none";
-        videoContainer.style.display = "block";
         await video.play();
         video.setAttribute("controls", "true");
       } catch (err) {
