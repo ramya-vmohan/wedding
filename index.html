@@ -1,47 +1,4 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Fullscreen Video</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      background: black;
-      overflow: hidden;
-    }
-    video {
-      width: 100vw;
-      height: 100vh;
-      object-fit: fill;
-      display: block;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Video: plays only once, allows manual replay via controls -->
- <!-- <video id="myVideo" controls playsinline>
-    <source src="Wedding Invitation.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <script>
-    // Optional: autoplay once, but stop at end and prevent looping
-    const video = document.getElementById('myVideo');
-    video.play();
-
-    // Make sure video does NOT restart after ending
-    video.addEventListener('ended', () => {
-      video.pause(); // just to be safe
-      video.currentTime = video.duration; // stay at end
-    });
-  </script>
-
-</body>
-</html> -->
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +48,7 @@
   <button id="startBtn">Play Video</button>
 
   <!-- Container for video player -->
-  <div id="videoContainer">
+<!--  <div id="videoContainer">
     <video id="myVideo" controls playsinline>
       <source src="Wedding Invitation.mp4" type="video/mp4">
       Your browser does not support the video tag.
@@ -112,6 +69,97 @@
         await video.play();
 
         // Enable controls after playback starts (if needed)
+        video.setAttribute("controls", "true");
+      } catch (err) {
+        console.error("Playback failed:", err);
+        alert("Tap the video to play — some browsers block auto-play with sound.");
+      }
+    });
+
+  </script>
+
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fullscreen Video with Audio</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background-color: black;
+    }
+
+    #videoContainer {
+      display: none;
+      height: 100%;
+      width: 100%;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #startBtn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    #startBtn svg {
+      width: 80px;
+      height: 80px;
+      fill: white;
+      transition: transform 0.2s ease;
+    }
+
+    #startBtn:hover svg {
+      transform: scale(1.1);
+      fill: #ccc;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Button with Play Icon -->
+  <button id="startBtn" aria-label="Play">
+    <svg viewBox="0 0 100 100">
+      <polygon points="40,30 70,50 40,70" />
+    </svg>
+  </button>
+
+  <!-- Video container -->
+  <div id="videoContainer">
+    <video id="myVideo" controls playsinline>
+      <source src="yourvideo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const videoContainer = document.getElementById("videoContainer");
+    const video = document.getElementById("myVideo");
+
+    startBtn.addEventListener("click", async () => {
+      try {
+        startBtn.style.display = "none";
+        videoContainer.style.display = "block";
+        await video.play();
         video.setAttribute("controls", "true");
       } catch (err) {
         console.error("Playback failed:", err);
