@@ -2,11 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Video Hosting</title>
+  <title>Fullscreen Video</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+    video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+    }
+  </style>
 </head>
 <body>
-  <h1>My Video</h1>
-  <video width="640" height="360" controls>
+  <video autoplay muted loop>
     <source src="Wedding Invitation.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
